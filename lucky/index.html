@@ -10,8 +10,8 @@
 	  <script src="js/common/modernizr.js"></script>
 	</head>
 	<body>
-<!--		<div class="clock" style="margin:2em;"></div>
-
+<div class="clock" style="margin:2em;"></div>
+<!--
 		<div style="text-align:center">
 		<button type="button" class="increment" style="align:center;margin: 25px; font-size: 20px; padding: 15px;">+1</button>
 
@@ -19,7 +19,7 @@
 
 		<button type="button" class="reset" style="margin: 25px; font-size: 20px; padding: 15px;">Reset</button>
 	</div> -->
-
+<button type="button" class="decrement" style="margin: 25px; font-size: 20px; padding: 15px;">Start</button>
 		<div class="wrapper">
 
 
@@ -34,60 +34,60 @@
         <div id="sectionContent" class="section__content">
           <div id="card1" class="card effect__random" data-id="1">
             <div class="card__front">
-              <span  class="card__text"  >1</span>
+              <span id='digit1' class="card__text"  >1</span>
             </div>
             <div class="card__back">
-              <span id='digit1' class="card__text">2</span>
+              <span  class="card__text">2</span>
             </div>
           </div><!-- /card -->
 
           <div id="card2" class="card effect__random" data-id="2">
             <div class="card__front">
-              <span class="card__text">8</span>
+              <span id='digit2' class="card__text">8</span>
             </div>
             <div class="card__back">
-              <span id='digit2' class="card__text">2</span>
+              <span  class="card__text">2</span>
             </div>
           </div><!-- /card -->
 
           <div id="card3" class="card effect__random" data-id="3">
             <div class="card__front">
-              <span class="card__text">0</span>
+              <span id='digit3' class="card__text">0</span>
             </div>
             <div class="card__back">
-              <span id='digit3' class="card__text">3</span>
+              <span  class="card__text">3</span>
             </div>
           </div><!-- /card -->
           <div id="card4" class="card effect__random" data-id="4">
             <div class="card__front">
-              <span class="card__text">4</span>
+              <span id='digit4' class="card__text">4</span>
             </div>
             <div class="card__back">
-              <span id='digit4' class="card__text">6</span>
+              <span  class="card__text">6</span>
             </div>
           </div>
 		  <div id="card5" class="card effect__random" data-id="5">
             <div class="card__front">
-              <span class="card__text">2</span>
+              <span id='digit5' class="card__text">2</span>
             </div>
             <div class="card__back">
-              <span id='digit5' class="card__text">5</span>
+              <span  class="card__text">5</span>
             </div>
           </div>
 					<div id="card6" class="card effect__random" data-id="6">
 			            <div class="card__front">
-			              <span class="card__text">5</span>
+			              <span id='digit6' class="card__text">5</span>
 			            </div>
 			            <div class="card__back">
-			              <span id='digit6' class="card__text">9</span>
+			              <span  class="card__text">9</span>
 			            </div>
 			          </div><!-- /card -->
 					  <div id="card7" class="card effect__random" data-id="7">
 			            <div class="card__front">
-			              <span class="card__text">8</span>
+			              <span id='digit7' class="card__text">8</span>
 			            </div>
 			            <div class="card__back">
-			              <span id='digit7' class="card__text">1</span>
+			              <span  class="card__text">1</span>
 			            </div>
 			          </div><!-- /card -->
 		</div><!-- /card -->
@@ -110,24 +110,43 @@
 		<script type="text/javascript">
 
 			var clock;
-			var counter=0;
+			var i=0;
+			var counter = 0;
+
+
 			$(document).ready(function() {
 				randStr = 8795253;
 
-				var str="";
-				for(var i=1;i<8;i++)
-				{
-						$("#digit"+i).html(1);
-						document.getElementById("card"+i).className = "card";
 
+			// 	var myFunc = function(){
+			// 		i++;
+			// 		$("#digit"+i).html(i);
+			// 		console.log($("#digit"+i).html());
+			//
+			// 		document.getElementById("card"+i).className = "card";
+			// 		if(i==7){
+			// 					clearInterval(myVar);
+			// 		}
+			//
+			// 	}
+			// 	function myStopFunction() {
+			// 		console.log('inside cleaar iterval');
+			// 	clearInterval(myVar);
+			// }
+			// var myVar	= setInterval(myFunc, 1000)
 
-
-				}
+				// var str="";
+				// for(var i=1;i<8;i++)
+				// {
+				// 		$("#digit"+i).html(i);
+				// 		console.log($("#digit"+i).html());
+				// 		document.getElementById("card"+i).className = "card";
+				// }
 				// var c=document.getElementsByClassName("card effect__random");
 				// console.log('this is le',c);
 
 				// $('#sectionContent').html(str);
-				$('#mydiv').html(str);
+				// $('#mydiv').html(str);
 
 
 				// Instantiate a counter
@@ -150,6 +169,19 @@
 						clock.decrement();
 						counter++;
 						console.log('this is console',counter);
+
+						if(counter>12){
+						i++;
+						$("#digit"+i).html(i);
+						console.log($("#digit"+i).html());
+
+						document.getElementById("card"+i).className = "card";
+						if(i==7)
+									clearInterval(myVar);
+						}
+
+
+
 						if(counter==20)
 						{
 							randStr = 8795253;
