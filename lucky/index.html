@@ -118,27 +118,36 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 
 
 			$(document).ready(function() {
-
+			
+			var checkStatus = setInterval(function () {
+				$.ajax({url: "/luckydrow/lucky/check_status.php", success: function(result){
+						if(result==1)
+						{
+								console.log('the status is on',result);
+						}
+						else{
+							console.log('status is off');
+						}
+					}});
+					
+			},1000);
 			 
 			
 				clock = new FlipClock($('.clock'), 20, {
 					clockFace: 'Counter'
 				});
-
-
-
+				
 				// Attach a click event to a button a decrement the clock
 				$('.decrement').click(function() {
 					
 					var luckyArr;
-				//folowing is for the luckey winner ticket_number
+					//folowing is for the luckey winner ticket_number
 				
 					//condition is for the single click only
 					if(counter==0){
 					
 					$.ajax({url: "/luckydrow/lucky/database.php", success: function(result){
-						luckyArr = result.split();
-						
+						luckyArr = result;
 					}});
 
 						var intervalfunc=	setInterval(function () {
@@ -146,14 +155,19 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 						counter++;
 						console.log('this is console',counter);
 
-						if(counter>12){
+						if(counter>13){
 						i++;
+						console.log('digit numbet ',i,' is ',luckyArr[i]);
 						$("#digit"+i).html(luckyArr[i]);
 						console.log($("#digit"+i).html());
 
 						document.getElementById("card"+i).className = "card";
-						if(i==7)
-									clearInterval(myVar);
+						console.log('cvalue of i is ',i,' and counter is ',counter);
+						if(i==7){
+							clearInterval(intervalfunc);
+							
+						}
+						
 						}
 
 
