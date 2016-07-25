@@ -20,9 +20,9 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 		<button type="button" class="decrement" style="margin: 25px; font-size: 20px; padding: 15px;">Start</button>
 
 		<button type="button" class="reset" style="margin: 25px; font-size: 20px; padding: 15px;">Reset</button>
-	</div> -->
-<button type="button" class="decrement" style="margin: 25px; font-size: 20px; padding: 15px;">Start</button>
-<div id="mydiv">xollll</div>
+	</div> 
+<button type="button" class="decrement" style="margin: 25px; font-size: 20px; padding: 15px;">Start</button>-->
+
 		<div class="wrapper">
 
 
@@ -107,15 +107,12 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 		<!-- demo js -->
 		<script src="js/demo/demo.js"></script>
 
-		<!-- ad -->
-
-
 		<script type="text/javascript">
 
 			var clock;
 			var i=0;
 			var counter = 0;
-
+			var intervalfunc;
 
 			$(document).ready(function() {
 			
@@ -123,10 +120,30 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 				$.ajax({url: "/luckydrow/lucky/check_status.php", success: function(result){
 						if(result==1)
 						{
+							
+							$.ajax({url: "/luckydrow/lucky/status.php?status=3", success: function(result){
+								if(result==3){
+									startMe();
+								}
+							}});
+							
 								console.log('the status is on',result);
 						}
-						else{
+						else if(result==0){
 							console.log('status is off');
+						}
+						else if(result==3){
+							console.log('started!!');
+						}
+						else if(result==4){
+							console.log('status changed to reset');
+								clearInterval(intervalfunc);
+								clock.reset();
+								for(var i= 1;i<8;i++)
+									document.getElementById("card"+i).className = "card effect__random";
+								
+							$.ajax({url: "/luckydrow/lucky/status.php?status=0", success: function(result){
+							}});
 						}
 					}});
 					
@@ -138,7 +155,7 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 				});
 				
 				// Attach a click event to a button a decrement the clock
-				$('.decrement').click(function() {
+				function startMe() {
 					
 					var luckyArr;
 					//folowing is for the luckey winner ticket_number
@@ -150,7 +167,7 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 						luckyArr = result;
 					}});
 
-						var intervalfunc=	setInterval(function () {
+						 intervalfunc=	setInterval(function () {
 						clock.decrement();
 						counter++;
 						console.log('this is console',counter);
@@ -170,17 +187,15 @@ SELECT * FROM `tickets` WHERE id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `ticke
 						
 						}
 
-
-
 						if(counter==20)
 						{
 							clearInterval(intervalfunc);
-			}
+						}
 						}, 1000);
 					}
 
 
-				});
+				}
 
 				$('.reset').click(function() {
 					clock.reset();
